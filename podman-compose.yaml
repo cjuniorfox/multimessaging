@@ -1,0 +1,17 @@
+version: "3"
+services:
+  frontend:
+    image: "docker.io/traefik:v2.8"
+    ports:
+      - "3000:80"
+      - "127.0.0.1:3080:8080"
+    command:
+      - --api.insecure=true
+      - --providers.docker
+
+  backend:
+    labels:
+      traefik.http.routers.backend.rule: Host(`localhost`)
+    image: "quay.io/larsks/demoserver:latest"
+    scale: 3
+
